@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Message</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: auto;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 24px;
+            animation: floatHeart 12s linear infinite;
+        }
+
+        .heart:nth-child(odd) {
+            animation-delay: 2s;
+            font-size: 20px;
+        }
+
+        .heart:nth-child(3n) {
+            animation-delay: 6s;
+            font-size: 28px;
+        }
+
+        .heart:nth-child(4n) {
+            animation-delay: 10s;
+            font-size: 18px;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .message-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 35px;
+            padding: 70px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25);
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            animation: slideInUp 1.5s ease-out;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(80px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .message-container::before {
+            content: '💕';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 50px;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #fecfef);
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.05);
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .message-header {
+            margin-bottom: 50px;
+        }
+
+        .message-header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #e73c7e, #ee7752, #23a6d5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: bold;
+            animation: shimmer 4s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(90deg); }
+        }
+
+        .message-header .subtitle {
+            color: #666;
+            font-size: 1.3rem;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .message-header .from {
+            color: #888;
+            font-size: 1rem;
+            font-weight: normal;
+        }
+
+        .sweet-message {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+            border-radius: 25px;
+            padding: 50px 40px;
+            margin: 40px 0;
+            border: 2px solid rgba(231, 60, 126, 0.2);
+            font-size: 1.4rem;
+            line-height: 2;
+            color: #333;
+            text-align: left;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInMessage 2s ease-out 0.5s both;
+        }
+
+        .sweet-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: messageGlow 3s ease-in-out 1s infinite;
+        }
+
+        @keyframes fadeInMessage {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes messageGlow {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .message-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #fff, #ffd700);
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 3s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
+        }
+
+        .signature {
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            font-size: 1.1rem;
+            color: #666;
+            font-style: italic;
+            border-left: 4px solid #e73c7e;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.7;
+            animation: floatEmoji 15s linear infinite;
+        }
+
+        @keyframes floatEmoji {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .message-container {
+                padding: 50px 30px;
+                margin: 15px;
+            }
+            
+            .message-header h1 {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+            
+            .sweet-message {
+                padding: 35px 25px;
+                font-size: 1.2rem;
+                line-height: 1.8;
+            }
+            
+            .message-header .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .message-container {
+                padding: 40px 25px;
+            }
+            
+            .message-header h1 {
+                font-size: 2rem;
+            }
+            
+            .sweet-message {
+                padding: 30px 20px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg">
+        <div class="heart">💖</div>
+        <div class="heart">💕</div>
+        <div class="heart">💗</div>
+        <div class="heart">💝</div>
+        <div class="heart">💖</div>
+        <div class="heart">💕</div>
+        <div class="heart">💗</div>
+        <div class="heart">💝</div>
+    </div>
+
+    <div class="sparkles" id="sparkles"></div>
+    
+    <div class="floating-elements" id="floatingElements"></div>
+
+    <div class="message-container">
+        <div class="message-header">
+            <h1>For You</h1>
+            <p class="subtitle">A message from my heart</p>
+            <p class="from">With all my love ✨</p>
+        </div>
+
+        <div class="sweet-message">
+            <div class="message-content" id="messageContent">
+                <!-- EDIT THIS MESSAGE BELOW -->
+                My baby,<br><br>
+                
+                Every morning I wake up grateful for another day to love you. You are the sunshine that brightens my darkest days and the gentle breeze that calms my restless heart. Your smile is my favorite sight in the world, and your laugh is the most beautiful melody I've ever heard.<br><br>
+                
+                You make ordinary moments feel magical, and with you, I've discovered a love deeper than I ever thought possible. Thank you for being my partner, my best friend, and my greatest blessing.<br><br>
+                
+                Forever and always yours 💕
+                
+                <!-- EDIT THE MESSAGE ABOVE -->
+            </div>
+        </div>
+
+        <div class="signature">
+            "In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine." 
+            <br>— Maya Angelou
+        </div>
+    </div>
+
+    <script>
+        // Create continuous sparkle effects
+        function createSparkles() {
+            const sparklesContainer = document.getElementById('sparkles');
+            
+            setInterval(() => {
+                for (let i = 0; i < 3; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.animationDelay = Math.random() * 3 + 's';
+                    
+                    sparklesContainer.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        sparkle.remove();
+                    }, 3000);
+                }
+            }, 2000);
+        }
+
+        // Create floating hearts continuously
+        function createFloatingHeart() {
+            const heartsContainer = document.querySelector('.hearts-bg');
+            const heartEmojis = ['💖', '💕', '💗', '💝', '❤️', '💘'];
+            
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 4 + 8) + 's';
+            
+            heartsContainer.appendChild(heart);
+            
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.remove();
+                }
+            }, 12000);
+        }
+
+        // Create floating emojis
+        function createFloatingEmoji() {
+            const container = document.getElementById('floatingElements');
+            const emojis = ['✨', '🌟', '💫', '🦋', '🌸', '🌹'];
+            
+            const emoji = document.createElement('div');
+            emoji.className = 'floating-emoji';
+            emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 90 + '%';
+            emoji.style.animationDelay = Math.random() * 5 + 's';
+            emoji.style.animationDuration = (Math.random() * 5 + 10) + 's';
+            
+            container.appendChild(emoji);
+            
+            setTimeout(() => {
+                if (emoji.parentNode) {
+                    emoji.remove();
+                }
+            }, 15000);
+        }
+
+        // Initialize animations
+        window.addEventListener('load', () => {
+            // Start sparkles
+            createSparkles();
+            
+            // Create hearts periodically
+            setInterval(createFloatingHeart, 2000);
+            
+            // Create floating emojis periodically
+            setInterval(createFloatingEmoji, 4000);
+            
+            // Initial burst of elements
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createFloatingHeart, i * 1000);
+            }
+            
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createFloatingEmoji, i * 2000);
+            }
+        });
+
+        // Add gentle typing animation to the message
+        window.addEventListener('load', () => {
+            const messageContent = document.getElementById('messageContent');
+            const originalContent = messageContent.innerHTML;
+            
+            // Add a subtle glow effect when the message appears
+            setTimeout(() => {
+                messageContent.style.textShadow = '0 0 20px rgba(231, 60, 126, 0.3)';
+                setTimeout(() => {
+                    messageContent.style.textShadow = 'none';
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
