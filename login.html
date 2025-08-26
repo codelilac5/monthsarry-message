@@ -418,10 +418,30 @@
                 return;
             }
             
-            setTimeout(() => {
-    window.location.href = 'main.html';
-}, 2000);
-        });
+           document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    // Hardcoded valid credentials
+    const validEmail = "kherox05@gmail.com";
+    const validPassword = "08052025";
+
+    if (!email || !password) {
+        alert('Please fill in all fields');
+        return;
+    }
+
+    if (email === validEmail && password === validPassword) {
+        // Successful login
+        setTimeout(() => {
+            window.location.href = 'main.html';
+        }, 1000);
+    } else {
+        // Invalid login
+        alert("Invalid email or password. Please try again.");
+    }
+});
 
         // Password toggle functionality
         function togglePassword() {
@@ -468,4 +488,5 @@
         });
     </script>
 </body>
+
 </html>
